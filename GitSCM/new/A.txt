@@ -1,1 +1,1 @@
-create table abc(id int(2));
+bbbb
