@@ -1,1 +1,1 @@
-Gish
+create table abc(id int(2));
