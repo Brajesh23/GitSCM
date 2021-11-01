@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--- - - - - - - - - - - - - - - - - - - - - - - - - - - -loading staging data into final stagnig table - - - - - - - - - - - - - - - - - - - - - - - - -  set tez.job.name=staging:tms_carrier_contact_master_tmp1 :load target table from tms_carrier_contact_master_tmp;
+--><SnowBlocks>
+<SnowBlock id="1">
+<Step id="-----------------------_1">
+<Print><![CDATA[started loading into scct_work_db.tms_carrier_contact_master_tmp1;]]></Print>
+<Comment><![CDATA[------------------------- ---loading staging data into final stagnig table -------------------------  set tez.job.name=staging:tms_carrier_contact_master_tmp1 :load target table from tms_carrier_contact_master_tmp;]]></Comment>
+<Comment><![CDATA[------------------------- ---loading staging data into target table -------------------------  set tez.job.name=staging:tms_carrier_contact_master :load target table from tms_carrier_contact_master_tmp1;]]></Comment>
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.TMS_CARRIER_CONTACT_MASTER (
+    SELECT
+      COMPANY_ID,
+      CARRIER_CD,
+      CARRIER_COMPANY_ID,
+      CARRIER_COMPANY_NAME,
+      CARRIER_NAME,
+      CARRIER_ADDRESS,
+      CARRIER_CITY,
+      CARRIER_STATE_PROV,
+      CARRIER_POSTAL_CD,
+      CARRIER_COUNTRY_CD,
+      CARRIER_STATUS,
+      CARRIER_MARK_FOR_DELETION,
+      CARRIER_COMMUNICATION_METHOD,
+      CARRIER_CREATED_DTTM,
+      CARRIER_LAST_UPDATED_DTTM,
+      CARRIER_PAYMENT_REFERENCE_NBR,
+      CARRIER_TARIFF_ID,
+      CARRIER_INVOICE_PAYMENT_TERMS,
+      CARRIER_PAYMENT_METHOD,
+      CARRIER_ID,
+      CARRIER_HAS_HAZMAT,
+      CONTACT_ID,
+      CONTACT_FIRST_NAME,
+      CONTACT_MIDDLE_NAME,
+      CONTACT_SURNAME,
+      CONTACT_PREFIX,
+      CONTACT_TITLE,
+      CONTACT_PHONE,
+      CONTACT_MOBILE_PHONE,
+      CONTACT_PAGER,
+      CONTACT_FAX,
+      CONTACT_EMAIL,
+      CONTACT_ADDRESS,
+      CONTACT_CITY,
+      CONTACT_STATE_PROV,
+      CONTACT_POSTAL_CD,
+      CONTACT_COUNTRY_CD,
+      CONTACT_COMMENTS,
+      CONTACT_IS_PRIMARY,
+      CONTACT_TYPE,
+      CONTACT_CREATED_DTTM,
+      CONTACT_LAST_UPDATED_DTTM,
+      CARRIER_NOTE_CARRIER_TYPE,
+      CARRIER_NOTE_CANADIAN_CARRIERFROM SCCT_WORK_DB.TMS_CARRIER_CONTACT_MASTER_TMP1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.tms_carrier_contact_master_tmp1;]]></Print>
+<Comment><![CDATA[------------------------- ---loading staging data into final stagnig table -------------------------  set tez.job.name=staging:tms_carrier_contact_master_tmp1 :load target table from tms_carrier_contact_master_tmp;]]></Comment>
+<Comment><![CDATA[------------------------- ---loading staging data into target table -------------------------  set tez.job.name=staging:tms_carrier_contact_master :load target table from tms_carrier_contact_master_tmp1;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="2">
+<Step id="-----------------------_2">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.TMS_CARRIER_CONTACT_MASTER (
+    SELECT
+      COMPANY_ID,
+      CARRIER_CD,
+      CARRIER_COMPANY_ID,
+      CARRIER_COMPANY_NAME,
+      CARRIER_NAME,
+      CARRIER_ADDRESS,
+      CARRIER_CITY,
+      CARRIER_STATE_PROV,
+      CARRIER_POSTAL_CD,
+      CARRIER_COUNTRY_CD,
+      CARRIER_STATUS,
+      CARRIER_MARK_FOR_DELETION,
+      CARRIER_COMMUNICATION_METHOD,
+      CARRIER_CREATED_DTTM,
+      CARRIER_LAST_UPDATED_DTTM,
+      CARRIER_PAYMENT_REFERENCE_NBR,
+      CARRIER_TARIFF_ID,
+      CARRIER_INVOICE_PAYMENT_TERMS,
+      CARRIER_PAYMENT_METHOD,
+      CARRIER_ID,
+      CARRIER_HAS_HAZMAT,
+      CONTACT_ID,
+      CONTACT_FIRST_NAME,
+      CONTACT_MIDDLE_NAME,
+      CONTACT_SURNAME,
+      CONTACT_PREFIX,
+      CONTACT_TITLE,
+      CONTACT_PHONE,
+      CONTACT_MOBILE_PHONE,
+      CONTACT_PAGER,
+      CONTACT_FAX,
+      CONTACT_EMAIL,
+      CONTACT_ADDRESS,
+      CONTACT_CITY,
+      CONTACT_STATE_PROV,
+      CONTACT_POSTAL_CD,
+      CONTACT_COUNTRY_CD,
+      CONTACT_COMMENTS,
+      CONTACT_IS_PRIMARY,
+      CONTACT_TYPE,
+      CONTACT_CREATED_DTTM,
+      CONTACT_LAST_UPDATED_DTTM,
+      CARRIER_NOTE_CARRIER_TYPE,
+      CARRIER_NOTE_CANADIAN_CARRIERFROM SCCT_WORK_DB.TMS_CARRIER_CONTACT_MASTER_TMP1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.tms_carrier_contact_master_tmp1;]]></Print>
+<Comment><![CDATA[------------------------- ---loading staging data into final stagnig table -------------------------  set tez.job.name=staging:tms_carrier_contact_master_tmp1 :load target table from tms_carrier_contact_master_tmp;]]></Comment>
+<Comment><![CDATA[------------------------- ---loading staging data into target table -------------------------  set tez.job.name=staging:tms_carrier_contact_master :load target table from tms_carrier_contact_master_tmp1;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="3">
+<Step id="-----------------------_3">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.TMS_CARRIER_CONTACT_MASTER (
+    SELECT
+      COMPANY_ID,
+      CARRIER_CD,
+      CARRIER_COMPANY_ID,
+      CARRIER_COMPANY_NAME,
+      CARRIER_NAME,
+      CARRIER_ADDRESS,
+      CARRIER_CITY,
+      CARRIER_STATE_PROV,
+      CARRIER_POSTAL_CD,
+      CARRIER_COUNTRY_CD,
+      CARRIER_STATUS,
+      CARRIER_MARK_FOR_DELETION,
+      CARRIER_COMMUNICATION_METHOD,
+      CARRIER_CREATED_DTTM,
+      CARRIER_LAST_UPDATED_DTTM,
+      CARRIER_PAYMENT_REFERENCE_NBR,
+      CARRIER_TARIFF_ID,
+      CARRIER_INVOICE_PAYMENT_TERMS,
+      CARRIER_PAYMENT_METHOD,
+      CARRIER_ID,
+      CARRIER_HAS_HAZMAT,
+      CONTACT_ID,
+      CONTACT_FIRST_NAME,
+      CONTACT_MIDDLE_NAME,
+      CONTACT_SURNAME,
+      CONTACT_PREFIX,
+      CONTACT_TITLE,
+      CONTACT_PHONE,
+      CONTACT_MOBILE_PHONE,
+      CONTACT_PAGER,
+      CONTACT_FAX,
+      CONTACT_EMAIL,
+      CONTACT_ADDRESS,
+      CONTACT_CITY,
+      CONTACT_STATE_PROV,
+      CONTACT_POSTAL_CD,
+      CONTACT_COUNTRY_CD,
+      CONTACT_COMMENTS,
+      CONTACT_IS_PRIMARY,
+      CONTACT_TYPE,
+      CONTACT_CREATED_DTTM,
+      CONTACT_LAST_UPDATED_DTTM,
+      CARRIER_NOTE_CARRIER_TYPE,
+      CARRIER_NOTE_CANADIAN_CARRIERFROM SCCT_WORK_DB.TMS_CARRIER_CONTACT_MASTER_TMP1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.tms_carrier_contact_master_tmp1;]]></Print>
+<Comment><![CDATA[------------------------- ---loading staging data into final stagnig table -------------------------  set tez.job.name=staging:tms_carrier_contact_master_tmp1 :load target table from tms_carrier_contact_master_tmp;]]></Comment>
+<Comment><![CDATA[------------------------- ---loading staging data into target table -------------------------  set tez.job.name=staging:tms_carrier_contact_master :load target table from tms_carrier_contact_master_tmp1;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="4">
+<Step id="-----------------------_4">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.TMS_CARRIER_CONTACT_MASTER (
+    SELECT
+      COMPANY_ID,
+      CARRIER_CD,
+      CARRIER_COMPANY_ID,
+      CARRIER_COMPANY_NAME,
+      CARRIER_NAME,
+      CARRIER_ADDRESS,
+      CARRIER_CITY,
+      CARRIER_STATE_PROV,
+      CARRIER_POSTAL_CD,
+      CARRIER_COUNTRY_CD,
+      CARRIER_STATUS,
+      CARRIER_MARK_FOR_DELETION,
+      CARRIER_COMMUNICATION_METHOD,
+      CARRIER_CREATED_DTTM,
+      CARRIER_LAST_UPDATED_DTTM,
+      CARRIER_PAYMENT_REFERENCE_NBR,
+      CARRIER_TARIFF_ID,
+      CARRIER_INVOICE_PAYMENT_TERMS,
+      CARRIER_PAYMENT_METHOD,
+      CARRIER_ID,
+      CARRIER_HAS_HAZMAT,
+      CONTACT_ID,
+      CONTACT_FIRST_NAME,
+      CONTACT_MIDDLE_NAME,
+      CONTACT_SURNAME,
+      CONTACT_PREFIX,
+      CONTACT_TITLE,
+      CONTACT_PHONE,
+      CONTACT_MOBILE_PHONE,
+      CONTACT_PAGER,
+      CONTACT_FAX,
+      CONTACT_EMAIL,
+      CONTACT_ADDRESS,
+      CONTACT_CITY,
+      CONTACT_STATE_PROV,
+      CONTACT_POSTAL_CD,
+      CONTACT_COUNTRY_CD,
+      CONTACT_COMMENTS,
+      CONTACT_IS_PRIMARY,
+      CONTACT_TYPE,
+      CONTACT_CREATED_DTTM,
+      CONTACT_LAST_UPDATED_DTTM,
+      CARRIER_NOTE_CARRIER_TYPE,
+      CARRIER_NOTE_CANADIAN_CARRIERFROM SCCT_WORK_DB.TMS_CARRIER_CONTACT_MASTER_TMP1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+</Step>
+<Step id="-----------------------_5"><![CDATA[end script]]></Step>
+</SnowBlock>
+</SnowBlocks>

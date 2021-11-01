@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!----><SnowBlocks>
+<SnowBlock id="1">
+<Step id="po_so_dd_hu_details_1">
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed loading into scct_db.prepack_component ;]]></Print>
+<Print><![CDATA[worker table load is completed;]]></Print>
+<Print><![CDATA[purge str rows completed;]]></Print>
+<Sql><![CDATA[------------------------- ---insert record into control table to purge str rows -------------------------  ! echo started entry into job control table;]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Comment><![CDATA[---jobname:scct-rockport-hive-stg1-scct_db.rockport_air_shipment -------------------------------------------------------------------------- ---target: stage1 table: scct_db.rockport_air_shipment ---source: rockport_stage0 table : trader_shipping_hdr, trader_shipping_dtl, trader_party, trader_plci3225 --- trader_packing, trader_delivery_dtl and trader_matrix_hdr;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="2">
+<Step id="po_so_dd_hu_details_2">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_WORK_DB.TRADER_PLCI3225_WORK (
+    SELECT
+      OWNER,
+      PLACE_CODE,
+      PLACE_NAME
+    FROM
+      (
+        SELECT
+          OWNER,
+          PLACE_CODE,
+          PLACE_NAME,
+          ROW_NUMBER() OVER (
+            PARTITION BY TRIM(OWNER),
+            TRIM(PLACE_CODE)
+            ORDER BY
+              FROM_UNIXTIME(LAST_UPDATE / 1000, 'yyyy-mm-dd hh:mm:ss') DESC
+          ) AS ROW_NUM
+        FROM
+          ROCKPORT_STAGE0.TRADER_PLCI3225
+      ) AS AWHERE A.ROW_NUM = 1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="3">
+<Step id="po_so_dd_hu_details_3">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.ROCKPORT_AIR_SHIPMENT (
+    SELECT
+      COALESCE(RASW.MAWB_NBR, RAS.MAWB_NBR),
+      COALESCE(RASW.HAWB_NBR, RAS.HAWB_NBR),
+      COALESCE(RASW.REF_NBR, RAS.REF_NBR),
+      COALESCE(RASW.ITM_NBR, RAS.ITM_NBR),
+      COALESCE(RASW.SHIPPING_METHOD, RAS.SHIPPING_METHOD),
+      COALESCE(RASW.FLIGHT_NBR, RAS.FLIGHT_NBR),
+      COALESCE(RASW.FORWARDER_ID, RAS.FORWARDER_ID),
+      COALESCE(RASW.FORWARDER_NAME, RAS.FORWARDER_NAME),
+      COALESCE(RASW.CARRIER_CD, RAS.CARRIER_CD),
+      COALESCE(RASW.PORT_OF_LADING_ID, RAS.PORT_OF_LADING_ID),
+      COALESCE(
+        RASW.PORT_OF_LADING_NAME,
+        RAS.PORT_OF_LADING_NAME
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_ID,
+        RAS.PORT_OF_DISCHARGE_ID
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_NAME,
+        RAS.PORT_OF_DISCHARGE_NAME
+      ),
+      COALESCE(RASW.DESTINATION_ID, RAS.DESTINATION_ID),
+      COALESCE(RASW.DESTINATION_NAME, RAS.DESTINATION_NAME),
+      COALESCE(RASW.DIM_WGT, RAS.DIM_WGT),
+      COALESCE(RASW.DIM_WGT_UOM, RAS.DIM_WGT_UOM),
+      COALESCE(RASW.GROSS_WGT, RAS.GROSS_WGT),
+      COALESCE(RASW.GROSS_WGT_UOM, RAS.GROSS_WGT_UOM),
+      COALESCE(RASW.TOTAL_CARTONS, RAS.TOTAL_CARTONS),
+      COALESCE(RASW.ACTUAL_DEPART_DTM, RAS.ACTUAL_DEPART_DTM),
+      COALESCE(RASW.TRANSMISSION_DTM, RAS.TRANSMISSION_DTM),
+      COALESCE(RASW.ETA_DTM, RAS.ETA_DTM),
+      COALESCE(RASW.CARGO_RECEIPT_DTM, RAS.CARGO_RECEIPT_DTM),
+      COALESCE(RASW.DOCS_AVAILABLE_DTM, RAS.DOCS_AVAILABLE_DTM),
+      COALESCE(RASW.BRAND, RAS.BRAND),
+      COALESCE(RASW.DELIVER_TO, RAS.DELIVER_TO),
+      COALESCE(RASW.PO_NBR, RAS.PO_NBR),
+      COALESCE(RASW.CONTRACT_NBR, RAS.CONTRACT_NBR),
+      COALESCE(RASW.ORDER_NBR, RAS.ORDER_NBR),
+      COALESCE(RASW.PO_UNIT, RAS.PO_UNIT),
+      COALESCE(RASW.PO_CARTONS_QTY, RAS.PO_CARTONS_QTY),
+      COALESCE(RASW.PO_GROSS_WGT, RAS.PO_GROSS_WGT),
+      COALESCE(RASW.PO_GROSS_WGT_UOM, RAS.PO_GROSS_WGT_UOM),
+      COALESCE(RASW.PO_DIM_WGT, RAS.PO_DIM_WGT),
+      COALESCE(RASW.PO_DIM_WGT_UOM, RAS.PO_DIM_WGT_UOM),
+      COALESCE(RASW.PO_CHARGEABLE_WGT, RAS.PO_CHARGEABLE_WGT),
+      COALESCE(
+        RASW.PO_CHARGEABLE_WGT_UOM,
+        RAS.PO_CHARGEABLE_WGT_UOM
+      ),
+      COALESCE(RASW.GARMENT_PACK, RAS.GARMENT_PACK),
+      COALESCE(RASW.PRE_TKT, RAS.PRE_TKT),
+      COALESCE(
+        RASW.HEADER_LAST_UPD_DTM,
+        RAS.HEADER_LAST_UPD_DTM
+      ),
+      COALESCE(
+        RASW.DETAIL_LAST_UPD_DTM,
+        RAS.DETAIL_LAST_UPD_DTM
+      )
+    FROM
+      SCCT_WORK_DB.ROCKPORT_AIR_SHIPMENT_WORK1 AS RASWFULL
+      JOIN SCCT_DB.ROCKPORT_AIR_SHIPMENT AS RAS ON RASW.MAWB_NBR = RAS.MAWB_NBR
+      AND RASW.FORWARDER_ID = RAS.FORWARDER_ID
+      AND RASW.HAWB_NBR = RAS.HAWB_NBR
+      AND RASW.CONTRACT_NBR = RAS.CONTRACT_NBR
+      AND RASW.ORDER_NBR = RAS.ORDER_NBR
+      AND RASW.REF_NBR = RAS.REF_NBR
+      AND RASW.ITM_NBR = RAS.ITM_NBR
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed loading into scct_db.prepack_component ;]]></Print>
+<Print><![CDATA[worker table load is completed;]]></Print>
+<Print><![CDATA[purge str rows completed;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="4">
+<Step id="po_so_dd_hu_details_4">
+<Sql><![CDATA[------------------------- ---insert record into control table to purge str rows -------------------------  ! echo started entry into job control table;]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Comment><![CDATA[---jobname:scct-rockport-hive-stg1-scct_db.rockport_air_shipment -------------------------------------------------------------------------- ---target: stage1 table: scct_db.rockport_air_shipment ---source: rockport_stage0 table : trader_shipping_hdr, trader_shipping_dtl, trader_party, trader_plci3225 --- trader_packing, trader_delivery_dtl and trader_matrix_hdr;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="5">
+<Step id="po_so_dd_hu_details_5">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_WORK_DB.TRADER_PLCI3225_WORK (
+    SELECT
+      OWNER,
+      PLACE_CODE,
+      PLACE_NAME
+    FROM
+      (
+        SELECT
+          OWNER,
+          PLACE_CODE,
+          PLACE_NAME,
+          ROW_NUMBER() OVER (
+            PARTITION BY TRIM(OWNER),
+            TRIM(PLACE_CODE)
+            ORDER BY
+              FROM_UNIXTIME(LAST_UPDATE / 1000, 'yyyy-mm-dd hh:mm:ss') DESC
+          ) AS ROW_NUM
+        FROM
+          ROCKPORT_STAGE0.TRADER_PLCI3225
+      ) AS AWHERE A.ROW_NUM = 1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="6">
+<Step id="po_so_dd_hu_details_6">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.ROCKPORT_AIR_SHIPMENT (
+    SELECT
+      COALESCE(RASW.MAWB_NBR, RAS.MAWB_NBR),
+      COALESCE(RASW.HAWB_NBR, RAS.HAWB_NBR),
+      COALESCE(RASW.REF_NBR, RAS.REF_NBR),
+      COALESCE(RASW.ITM_NBR, RAS.ITM_NBR),
+      COALESCE(RASW.SHIPPING_METHOD, RAS.SHIPPING_METHOD),
+      COALESCE(RASW.FLIGHT_NBR, RAS.FLIGHT_NBR),
+      COALESCE(RASW.FORWARDER_ID, RAS.FORWARDER_ID),
+      COALESCE(RASW.FORWARDER_NAME, RAS.FORWARDER_NAME),
+      COALESCE(RASW.CARRIER_CD, RAS.CARRIER_CD),
+      COALESCE(RASW.PORT_OF_LADING_ID, RAS.PORT_OF_LADING_ID),
+      COALESCE(
+        RASW.PORT_OF_LADING_NAME,
+        RAS.PORT_OF_LADING_NAME
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_ID,
+        RAS.PORT_OF_DISCHARGE_ID
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_NAME,
+        RAS.PORT_OF_DISCHARGE_NAME
+      ),
+      COALESCE(RASW.DESTINATION_ID, RAS.DESTINATION_ID),
+      COALESCE(RASW.DESTINATION_NAME, RAS.DESTINATION_NAME),
+      COALESCE(RASW.DIM_WGT, RAS.DIM_WGT),
+      COALESCE(RASW.DIM_WGT_UOM, RAS.DIM_WGT_UOM),
+      COALESCE(RASW.GROSS_WGT, RAS.GROSS_WGT),
+      COALESCE(RASW.GROSS_WGT_UOM, RAS.GROSS_WGT_UOM),
+      COALESCE(RASW.TOTAL_CARTONS, RAS.TOTAL_CARTONS),
+      COALESCE(RASW.ACTUAL_DEPART_DTM, RAS.ACTUAL_DEPART_DTM),
+      COALESCE(RASW.TRANSMISSION_DTM, RAS.TRANSMISSION_DTM),
+      COALESCE(RASW.ETA_DTM, RAS.ETA_DTM),
+      COALESCE(RASW.CARGO_RECEIPT_DTM, RAS.CARGO_RECEIPT_DTM),
+      COALESCE(RASW.DOCS_AVAILABLE_DTM, RAS.DOCS_AVAILABLE_DTM),
+      COALESCE(RASW.BRAND, RAS.BRAND),
+      COALESCE(RASW.DELIVER_TO, RAS.DELIVER_TO),
+      COALESCE(RASW.PO_NBR, RAS.PO_NBR),
+      COALESCE(RASW.CONTRACT_NBR, RAS.CONTRACT_NBR),
+      COALESCE(RASW.ORDER_NBR, RAS.ORDER_NBR),
+      COALESCE(RASW.PO_UNIT, RAS.PO_UNIT),
+      COALESCE(RASW.PO_CARTONS_QTY, RAS.PO_CARTONS_QTY),
+      COALESCE(RASW.PO_GROSS_WGT, RAS.PO_GROSS_WGT),
+      COALESCE(RASW.PO_GROSS_WGT_UOM, RAS.PO_GROSS_WGT_UOM),
+      COALESCE(RASW.PO_DIM_WGT, RAS.PO_DIM_WGT),
+      COALESCE(RASW.PO_DIM_WGT_UOM, RAS.PO_DIM_WGT_UOM),
+      COALESCE(RASW.PO_CHARGEABLE_WGT, RAS.PO_CHARGEABLE_WGT),
+      COALESCE(
+        RASW.PO_CHARGEABLE_WGT_UOM,
+        RAS.PO_CHARGEABLE_WGT_UOM
+      ),
+      COALESCE(RASW.GARMENT_PACK, RAS.GARMENT_PACK),
+      COALESCE(RASW.PRE_TKT, RAS.PRE_TKT),
+      COALESCE(
+        RASW.HEADER_LAST_UPD_DTM,
+        RAS.HEADER_LAST_UPD_DTM
+      ),
+      COALESCE(
+        RASW.DETAIL_LAST_UPD_DTM,
+        RAS.DETAIL_LAST_UPD_DTM
+      )
+    FROM
+      SCCT_WORK_DB.ROCKPORT_AIR_SHIPMENT_WORK1 AS RASWFULL
+      JOIN SCCT_DB.ROCKPORT_AIR_SHIPMENT AS RAS ON RASW.MAWB_NBR = RAS.MAWB_NBR
+      AND RASW.FORWARDER_ID = RAS.FORWARDER_ID
+      AND RASW.HAWB_NBR = RAS.HAWB_NBR
+      AND RASW.CONTRACT_NBR = RAS.CONTRACT_NBR
+      AND RASW.ORDER_NBR = RAS.ORDER_NBR
+      AND RASW.REF_NBR = RAS.REF_NBR
+      AND RASW.ITM_NBR = RAS.ITM_NBR
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed loading into scct_db.prepack_component ;]]></Print>
+<Print><![CDATA[worker table load is completed;]]></Print>
+<Print><![CDATA[purge str rows completed;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="7">
+<Step id="po_so_dd_hu_details_7">
+<Sql><![CDATA[------------------------- ---insert record into control table to purge str rows -------------------------  ! echo started entry into job control table;]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Comment><![CDATA[---jobname:scct-rockport-hive-stg1-scct_db.rockport_air_shipment -------------------------------------------------------------------------- ---target: stage1 table: scct_db.rockport_air_shipment ---source: rockport_stage0 table : trader_shipping_hdr, trader_shipping_dtl, trader_party, trader_plci3225 --- trader_packing, trader_delivery_dtl and trader_matrix_hdr;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="8">
+<Step id="po_so_dd_hu_details_8">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_WORK_DB.TRADER_PLCI3225_WORK (
+    SELECT
+      OWNER,
+      PLACE_CODE,
+      PLACE_NAME
+    FROM
+      (
+        SELECT
+          OWNER,
+          PLACE_CODE,
+          PLACE_NAME,
+          ROW_NUMBER() OVER (
+            PARTITION BY TRIM(OWNER),
+            TRIM(PLACE_CODE)
+            ORDER BY
+              FROM_UNIXTIME(LAST_UPDATE / 1000, 'yyyy-mm-dd hh:mm:ss') DESC
+          ) AS ROW_NUM
+        FROM
+          ROCKPORT_STAGE0.TRADER_PLCI3225
+      ) AS AWHERE A.ROW_NUM = 1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="9">
+<Step id="po_so_dd_hu_details_9">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.ROCKPORT_AIR_SHIPMENT (
+    SELECT
+      COALESCE(RASW.MAWB_NBR, RAS.MAWB_NBR),
+      COALESCE(RASW.HAWB_NBR, RAS.HAWB_NBR),
+      COALESCE(RASW.REF_NBR, RAS.REF_NBR),
+      COALESCE(RASW.ITM_NBR, RAS.ITM_NBR),
+      COALESCE(RASW.SHIPPING_METHOD, RAS.SHIPPING_METHOD),
+      COALESCE(RASW.FLIGHT_NBR, RAS.FLIGHT_NBR),
+      COALESCE(RASW.FORWARDER_ID, RAS.FORWARDER_ID),
+      COALESCE(RASW.FORWARDER_NAME, RAS.FORWARDER_NAME),
+      COALESCE(RASW.CARRIER_CD, RAS.CARRIER_CD),
+      COALESCE(RASW.PORT_OF_LADING_ID, RAS.PORT_OF_LADING_ID),
+      COALESCE(
+        RASW.PORT_OF_LADING_NAME,
+        RAS.PORT_OF_LADING_NAME
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_ID,
+        RAS.PORT_OF_DISCHARGE_ID
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_NAME,
+        RAS.PORT_OF_DISCHARGE_NAME
+      ),
+      COALESCE(RASW.DESTINATION_ID, RAS.DESTINATION_ID),
+      COALESCE(RASW.DESTINATION_NAME, RAS.DESTINATION_NAME),
+      COALESCE(RASW.DIM_WGT, RAS.DIM_WGT),
+      COALESCE(RASW.DIM_WGT_UOM, RAS.DIM_WGT_UOM),
+      COALESCE(RASW.GROSS_WGT, RAS.GROSS_WGT),
+      COALESCE(RASW.GROSS_WGT_UOM, RAS.GROSS_WGT_UOM),
+      COALESCE(RASW.TOTAL_CARTONS, RAS.TOTAL_CARTONS),
+      COALESCE(RASW.ACTUAL_DEPART_DTM, RAS.ACTUAL_DEPART_DTM),
+      COALESCE(RASW.TRANSMISSION_DTM, RAS.TRANSMISSION_DTM),
+      COALESCE(RASW.ETA_DTM, RAS.ETA_DTM),
+      COALESCE(RASW.CARGO_RECEIPT_DTM, RAS.CARGO_RECEIPT_DTM),
+      COALESCE(RASW.DOCS_AVAILABLE_DTM, RAS.DOCS_AVAILABLE_DTM),
+      COALESCE(RASW.BRAND, RAS.BRAND),
+      COALESCE(RASW.DELIVER_TO, RAS.DELIVER_TO),
+      COALESCE(RASW.PO_NBR, RAS.PO_NBR),
+      COALESCE(RASW.CONTRACT_NBR, RAS.CONTRACT_NBR),
+      COALESCE(RASW.ORDER_NBR, RAS.ORDER_NBR),
+      COALESCE(RASW.PO_UNIT, RAS.PO_UNIT),
+      COALESCE(RASW.PO_CARTONS_QTY, RAS.PO_CARTONS_QTY),
+      COALESCE(RASW.PO_GROSS_WGT, RAS.PO_GROSS_WGT),
+      COALESCE(RASW.PO_GROSS_WGT_UOM, RAS.PO_GROSS_WGT_UOM),
+      COALESCE(RASW.PO_DIM_WGT, RAS.PO_DIM_WGT),
+      COALESCE(RASW.PO_DIM_WGT_UOM, RAS.PO_DIM_WGT_UOM),
+      COALESCE(RASW.PO_CHARGEABLE_WGT, RAS.PO_CHARGEABLE_WGT),
+      COALESCE(
+        RASW.PO_CHARGEABLE_WGT_UOM,
+        RAS.PO_CHARGEABLE_WGT_UOM
+      ),
+      COALESCE(RASW.GARMENT_PACK, RAS.GARMENT_PACK),
+      COALESCE(RASW.PRE_TKT, RAS.PRE_TKT),
+      COALESCE(
+        RASW.HEADER_LAST_UPD_DTM,
+        RAS.HEADER_LAST_UPD_DTM
+      ),
+      COALESCE(
+        RASW.DETAIL_LAST_UPD_DTM,
+        RAS.DETAIL_LAST_UPD_DTM
+      )
+    FROM
+      SCCT_WORK_DB.ROCKPORT_AIR_SHIPMENT_WORK1 AS RASWFULL
+      JOIN SCCT_DB.ROCKPORT_AIR_SHIPMENT AS RAS ON RASW.MAWB_NBR = RAS.MAWB_NBR
+      AND RASW.FORWARDER_ID = RAS.FORWARDER_ID
+      AND RASW.HAWB_NBR = RAS.HAWB_NBR
+      AND RASW.CONTRACT_NBR = RAS.CONTRACT_NBR
+      AND RASW.ORDER_NBR = RAS.ORDER_NBR
+      AND RASW.REF_NBR = RAS.REF_NBR
+      AND RASW.ITM_NBR = RAS.ITM_NBR
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed po_so_dd_hu_kpi_details data load;]]></Print>
+<Print><![CDATA[completed loading into scct_db.prepack_component ;]]></Print>
+<Print><![CDATA[worker table load is completed;]]></Print>
+<Print><![CDATA[purge str rows completed;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="10">
+<Step id="po_so_dd_hu_details_10">
+<Sql><![CDATA[------------------------- ---insert record into control table to purge str rows -------------------------  ! echo started entry into job control table;]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Comment><![CDATA[---jobname:scct-rockport-hive-stg1-scct_db.rockport_air_shipment -------------------------------------------------------------------------- ---target: stage1 table: scct_db.rockport_air_shipment ---source: rockport_stage0 table : trader_shipping_hdr, trader_shipping_dtl, trader_party, trader_plci3225 --- trader_packing, trader_delivery_dtl and trader_matrix_hdr;]]></Comment>
+</Step>
+</SnowBlock>
+<SnowBlock id="11">
+<Step id="po_so_dd_hu_details_11">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_WORK_DB.TRADER_PLCI3225_WORK (
+    SELECT
+      OWNER,
+      PLACE_CODE,
+      PLACE_NAME
+    FROM
+      (
+        SELECT
+          OWNER,
+          PLACE_CODE,
+          PLACE_NAME,
+          ROW_NUMBER() OVER (
+            PARTITION BY TRIM(OWNER),
+            TRIM(PLACE_CODE)
+            ORDER BY
+              FROM_UNIXTIME(LAST_UPDATE / 1000, 'yyyy-mm-dd hh:mm:ss') DESC
+          ) AS ROW_NUM
+        FROM
+          ROCKPORT_STAGE0.TRADER_PLCI3225
+      ) AS AWHERE A.ROW_NUM = 1
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+<Print><![CDATA[started loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work;]]></Print>
+<Print><![CDATA[completed loading into scct_work_db.rockport_air_shipment_work1;]]></Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="12">
+<Step id="po_so_dd_hu_details_12">
+<Sql><![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.ROCKPORT_AIR_SHIPMENT (
+    SELECT
+      COALESCE(RASW.MAWB_NBR, RAS.MAWB_NBR),
+      COALESCE(RASW.HAWB_NBR, RAS.HAWB_NBR),
+      COALESCE(RASW.REF_NBR, RAS.REF_NBR),
+      COALESCE(RASW.ITM_NBR, RAS.ITM_NBR),
+      COALESCE(RASW.SHIPPING_METHOD, RAS.SHIPPING_METHOD),
+      COALESCE(RASW.FLIGHT_NBR, RAS.FLIGHT_NBR),
+      COALESCE(RASW.FORWARDER_ID, RAS.FORWARDER_ID),
+      COALESCE(RASW.FORWARDER_NAME, RAS.FORWARDER_NAME),
+      COALESCE(RASW.CARRIER_CD, RAS.CARRIER_CD),
+      COALESCE(RASW.PORT_OF_LADING_ID, RAS.PORT_OF_LADING_ID),
+      COALESCE(
+        RASW.PORT_OF_LADING_NAME,
+        RAS.PORT_OF_LADING_NAME
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_ID,
+        RAS.PORT_OF_DISCHARGE_ID
+      ),
+      COALESCE(
+        RASW.PORT_OF_DISCHARGE_NAME,
+        RAS.PORT_OF_DISCHARGE_NAME
+      ),
+      COALESCE(RASW.DESTINATION_ID, RAS.DESTINATION_ID),
+      COALESCE(RASW.DESTINATION_NAME, RAS.DESTINATION_NAME),
+      COALESCE(RASW.DIM_WGT, RAS.DIM_WGT),
+      COALESCE(RASW.DIM_WGT_UOM, RAS.DIM_WGT_UOM),
+      COALESCE(RASW.GROSS_WGT, RAS.GROSS_WGT),
+      COALESCE(RASW.GROSS_WGT_UOM, RAS.GROSS_WGT_UOM),
+      COALESCE(RASW.TOTAL_CARTONS, RAS.TOTAL_CARTONS),
+      COALESCE(RASW.ACTUAL_DEPART_DTM, RAS.ACTUAL_DEPART_DTM),
+      COALESCE(RASW.TRANSMISSION_DTM, RAS.TRANSMISSION_DTM),
+      COALESCE(RASW.ETA_DTM, RAS.ETA_DTM),
+      COALESCE(RASW.CARGO_RECEIPT_DTM, RAS.CARGO_RECEIPT_DTM),
+      COALESCE(RASW.DOCS_AVAILABLE_DTM, RAS.DOCS_AVAILABLE_DTM),
+      COALESCE(RASW.BRAND, RAS.BRAND),
+      COALESCE(RASW.DELIVER_TO, RAS.DELIVER_TO),
+      COALESCE(RASW.PO_NBR, RAS.PO_NBR),
+      COALESCE(RASW.CONTRACT_NBR, RAS.CONTRACT_NBR),
+      COALESCE(RASW.ORDER_NBR, RAS.ORDER_NBR),
+      COALESCE(RASW.PO_UNIT, RAS.PO_UNIT),
+      COALESCE(RASW.PO_CARTONS_QTY, RAS.PO_CARTONS_QTY),
+      COALESCE(RASW.PO_GROSS_WGT, RAS.PO_GROSS_WGT),
+      COALESCE(RASW.PO_GROSS_WGT_UOM, RAS.PO_GROSS_WGT_UOM),
+      COALESCE(RASW.PO_DIM_WGT, RAS.PO_DIM_WGT),
+      COALESCE(RASW.PO_DIM_WGT_UOM, RAS.PO_DIM_WGT_UOM),
+      COALESCE(RASW.PO_CHARGEABLE_WGT, RAS.PO_CHARGEABLE_WGT),
+      COALESCE(
+        RASW.PO_CHARGEABLE_WGT_UOM,
+        RAS.PO_CHARGEABLE_WGT_UOM
+      ),
+      COALESCE(RASW.GARMENT_PACK, RAS.GARMENT_PACK),
+      COALESCE(RASW.PRE_TKT, RAS.PRE_TKT),
+      COALESCE(
+        RASW.HEADER_LAST_UPD_DTM,
+        RAS.HEADER_LAST_UPD_DTM
+      ),
+      COALESCE(
+        RASW.DETAIL_LAST_UPD_DTM,
+        RAS.DETAIL_LAST_UPD_DTM
+      )
+    FROM
+      SCCT_WORK_DB.ROCKPORT_AIR_SHIPMENT_WORK1 AS RASWFULL
+      JOIN SCCT_DB.ROCKPORT_AIR_SHIPMENT AS RAS ON RASW.MAWB_NBR = RAS.MAWB_NBR
+      AND RASW.FORWARDER_ID = RAS.FORWARDER_ID
+      AND RASW.HAWB_NBR = RAS.HAWB_NBR
+      AND RASW.CONTRACT_NBR = RAS.CONTRACT_NBR
+      AND RASW.ORDER_NBR = RAS.ORDER_NBR
+      AND RASW.REF_NBR = RAS.REF_NBR
+      AND RASW.ITM_NBR = RAS.ITM_NBR
+  );]]></Sql>
+<Condition action="exit" if="ERRORCODE != 0" value="ERRORCODE"/>
+</Step>
+<Step id="po_so_dd_hu_details_13"><![CDATA[end script]]></Step>
+</SnowBlock>
+</SnowBlocks>

@@ -1,0 +1,1 @@
+SELECT  percentile_approx(ws_ext_discount_amt ,'0.8D') FROM tpcds_bin_partitioned_orc_5.web_sales, tpcds_bin_partitioned_orc_5.date_dim  WHERE  d_date BETWEEN '2000-01-27' AND (date_add(cast('2000-01-27' AS DATE),90.45)) limit 20;

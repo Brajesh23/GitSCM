@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SnowBlocks>
+<SnowBlock id="1">
+<Step id="po_so_dd_hu_details_1">
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-2922 ssoma initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------  ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="2">
+<Step id="po_so_dd_hu_details_2">
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store_intra -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-3287 ssoma dc to store intra initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------   ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details for mast beauty production;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="3">
+<Step id="po_so_dd_hu_details_3">
+<Sql>![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.PO_SO_DD_HU_KPI_DETAILS(
+    SELECT
+      DTL.SPPLY_CHN_ND,
+      DTL.FROM_NODE,
+      DTL.PO_PURCH_ORD_NBR,
+      DTL.PO_PURCH_ORD_ITM_NBR,
+      DTL.PO_ITM_NBR,
+      '9999-12-31',
+      '9999-12-31',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      '9999-12-31',
+      '9999-12-31',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      'n/a',
+      0,
+      'n/a',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      '9999-12-31',
+      '9999-12-31',
+      '9999-12-31',
+      '9999-12-31',
+      COALESCE(SO.SO_FRST_SHP_DT, '9999-12-31'),
+      COALESCE(SO.SO_LST_SHP_DT, '9999-12-31'),
+      COALESCE(SO.SO_TOT_SHP_UNITS, 0),
+      COALESCE(DD.DD_CRTN_TOT_CNT, 0),
+      COALESCE(DD.DD_CRTN_TOT_PCKD_UNITS, 0),
+      COALESCE(DTL.PO_DEL_IND, 'n/a'),
+      COALESCE(DTL.PO_CO_CD, 'n/a'),
+      COALESCE(DTL.PO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.PO_PURCH_ORD_QTY, 0.000),
+      COALESCE(DTL.PO_PURCH_ORD_QTY_UOM, 'n/a'),
+      COALESCE(DTL.PO_ORD_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_BASE_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_NET_ORD_VAL_CURCY, 0.00),
+      COALESCE(DTL.PO_DELV_COMPLN_IND, 'n/a'),
+      COALESCE(DTL.PO_BASE_UOM_CD, 'n/a')
+  );]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="4">
+<Step id="po_so_dd_hu_details_4">
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-2922 ssoma initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------  ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="5">
+<Step id="po_so_dd_hu_details_5">
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store_intra -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-3287 ssoma dc to store intra initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------   ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details for mast beauty production;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="6">
+<Step id="po_so_dd_hu_details_6">
+<Sql>![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.PO_SO_DD_HU_KPI_DETAILS(
+    SELECT
+      DTL.SPPLY_CHN_ND,
+      DTL.FROM_NODE,
+      DTL.PO_PURCH_ORD_NBR,
+      DTL.PO_PURCH_ORD_ITM_NBR,
+      DTL.PO_ITM_NBR,
+      '9999-12-31',
+      '9999-12-31',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      '9999-12-31',
+      '9999-12-31',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      'n/a',
+      0,
+      'n/a',
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      '9999-12-31',
+      '9999-12-31',
+      '9999-12-31',
+      '9999-12-31',
+      COALESCE(SO.SO_FRST_SHP_DT, '9999-12-31'),
+      COALESCE(SO.SO_LST_SHP_DT, '9999-12-31'),
+      COALESCE(SO.SO_TOT_SHP_UNITS, 0),
+      COALESCE(DD.DD_CRTN_TOT_CNT, 0),
+      COALESCE(DD.DD_CRTN_TOT_PCKD_UNITS, 0),
+      COALESCE(DTL.PO_DEL_IND, 'n/a'),
+      COALESCE(DTL.PO_CO_CD, 'n/a'),
+      COALESCE(DTL.PO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.PO_PURCH_ORD_QTY, 0.000),
+      COALESCE(DTL.PO_PURCH_ORD_QTY_UOM, 'n/a'),
+      COALESCE(DTL.PO_ORD_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_BASE_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_NET_ORD_VAL_CURCY, 0.00),
+      COALESCE(DTL.PO_DELV_COMPLN_IND, 'n/a'),
+      COALESCE(DTL.PO_BASE_UOM_CD, 'n/a')
+  );]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+</Step>
+<Step id="po_so_dd_hu_details_7">
+<Comment>![CDATA[end script]]</Comment>
+</Step>
+</SnowBlock>
+</SnowBlocks>

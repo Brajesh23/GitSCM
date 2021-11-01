@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SnowBlocks>
+<SnowBlock id="1">
+<Step id="po_so_dd_hu_details_1">
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-2922 ssoma initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------  ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="2">
+<Step id="po_so_dd_hu_details_2">
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store_intra -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-3287 ssoma dc to store intra initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------   ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details for mast beauty production;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="3">
+<Step id="po_so_dd_hu_details_3">
+<Sql>![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.PO_SO_DD_HU_KPI_DETAILS (
+    SELECT
+      DTL.SPPLY_CHN_ND,
+      DTL.FROM_NODE,
+      DTL.PO_PURCH_ORD_NBR,
+      DTL.PO_PURCH_ORD_ITM_NBR,
+      DTL.PO_ITM_NBR,
+      COALESCE(KPI.PO_FRST_SHP_DT, '9999-12-31'),
+      COALESCE(KPI.PO_LST_SHP_DT, '9999-12-31'),
+      COALESCE(KPI.PO_TOT_SHP_UNITS, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_PLN_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_PLN_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_STAT_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_STAT_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_CRT_TO_FRST_SPMT_DAYS, 0),
+      COALESCE(KPI.PO_CRT_TO_LST_SPMT_DAYS, 0),
+      COALESCE(KPI.PO_FRST_RCPT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_LST_RCPT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_TOT_RCPT_UNITS, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_PLN_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_PLN_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_STAT_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_STAT_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_NBR_OF_SPMTS, 0),
+      COALESCE(KPI.PO_SPMT_INSTNCS, 'n/a'),
+      COALESCE(KPI.PO_NBR_OF_RCPT, 0),
+      COALESCE(KPI.PO_RCPT_INSTNCS, 'n/a'),
+      COALESCE(KPI.PO_FRST_SPMT_TO_FRST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_FRST_SPMT_TO_LST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_LST_SPMT_TO_FRST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_LST_SPMT_TO_LST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_CRT_TO_FRST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_CRT_TO_LST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_CRTN_TOT_CNT, 0),
+      COALESCE(KPI.PO_CRTN_TOT_PCKD_UNITS, 0),
+      COALESCE(KPI.PO_CRTN_FRST_SPMT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_CRTN_FRST_RCPT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_CRTN_LST_SPMT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_CRTN_LST_RCPT_DT, '9999-12-31'),
+      '9999-12-31',
+      '9999-12-31',
+      0,
+      COALESCE(DD.DD_CRTN_TOT_CNT, 0),
+      COALESCE(DD.DD_CRTN_TOT_PCKD_UNITS, 0),
+      COALESCE(DTL.PO_DEL_IND, 'n/a'),
+      COALESCE(DTL.PO_CO_CD, 'n/a'),
+      COALESCE(DTL.PO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.PO_PURCH_ORD_QTY, 0.000),
+      COALESCE(DTL.PO_PURCH_ORD_QTY_UOM, 'n/a'),
+      COALESCE(DTL.PO_ORD_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_BASE_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_NET_ORD_VAL_CURCY, 0.00),
+      COALESCE(DTL.PO_DELV_COMPLN_IND, 'n/a'),
+      COALESCE(DTL.PO_BASE_UOM_CD, 'n/a'),
+      COALESCE(DTL.PO_PURCH_ORD_QTY_UNITS, 0.000),
+      COALESCE(DTL.PO_MAST_OWNSHP_DT, '9999-12-31'),
+      COALESCE(DTL.PO_ORIG_MAST_OWNSHP_DT, '9999-12-31'),
+      COALESCE(DTL.PO_PURCH_DOC_TYPE_CD, 'n/a'),
+      COALESCE(DTL.PO_VEND_ACCT_ID, 'n/a'),
+      COALESCE(DTL.PO_PURCHG_ORG_CD, 'n/a'),
+      COALESCE(DTL.PO_PURCHG_GRP_CD, 'n/a'),
+      COALESCE(DTL.PO_CUST_NBR, 'n/a'),
+      COALESCE(DTL.PO_INCTRM, 'n/a'),
+      COALESCE(DTL.PO_PORT_CD, 'n/a'),
+      COALESCE(DTL.PO_OUR_REF, 'n/a'),
+      COALESCE(DTL.PO_TRANSP_MODE, 'n/a'),
+      COALESCE(DTL.PO_SLS_ORD_NBR, 'n/a'),
+      COALESCE(DTL.PO_SLS_ORD_ITM_NBR, 0),
+      COALESCE(DTL.PO_COORIG, 'n/a'),
+      COALESCE(DTL.PO_NDC_DT, '9999-12-31'),
+      COALESCE(DTL.PO_STAT_NDC_DT, '9999-12-31'),
+      COALESCE(DTL.PO_PO_CREATE_DT, '9999-12-31'),
+      COALESCE(DTL.PO_SHIP_TO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.PO_REC_CRTD_DT, 'n/a'),
+      COALESCE(DTL.PO_FLOORSET_DT, '9999-12-31'),
+      COALESCE(DTL.SO_SLS_ORD_NBR, 'n/a'),
+      COALESCE(DTL.SO_SLS_ORD_ITM_NBR, 0),
+      COALESCE(DTL.SO_ITM_NBR, 'n/a'),
+      COALESCE(DTL.SO_NET_VAL, 0.00),
+      COALESCE(DTL.SO_ORD_QTY_SLS_UNT, 0.000),
+      COALESCE(DTL.SO_RECV_LOC_NBR, 'n/a'),
+      COALESCE(DTL.SO_REC_CRTD_DT, '9999-12-31'),
+      COALESCE(DTL.SO_REC_CRTD_ID, 'n/a'),
+      COALESCE(DTL.SO_COST, 0.00),
+      COALESCE(DTL.SO_REQSTD_DT, '9999-12-31'),
+      COALESCE(DTL.SO_CUST_PRCH_NBR, 'n/a'),
+      COALESCE(DTL.SO_SHIP_TO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.SO_CNTRY_CD, 'n/a'),
+      COALESCE(DTL.SO_SLS_DOC_TYPE, 'n/a'),
+      COALESCE(DTL.DD_DELV_DOC_NBR, 'n/a'),
+      COALESCE(DTL.DD_DELV_DOC_ITM_NBR, 0),
+      COALESCE(DTL.DD_DEL_TYPE, 'n/a'),
+      COALESCE(DTL.DD_ACT_DELV_QTY, 0.000),
+      COALESCE(DTL.DD_ACTL_GDS_MOVMT_DT, '9999-12-31'),
+      COALESCE(DTL.DD_DELV_PRTY, 0),
+      COALESCE(DTL.DD_DELV_QTY, 0.000),
+      COALESCE(DTL.DD_GDS_ISS_DATE, '9999-12-31'),
+      COALESCE(DTL.DD_RCVG_STE_DELV, 'n/a'),
+      COALESCE(DTL.DD_HDR_REC_CRTD_DT, '9999-12-31'),
+      COALESCE(DTL.DD_REF_DOC_ITM_NBR, 0),
+      COALESCE(DTL.DD_REF_DOC_NBR, 'n/a'),
+      COALESCE(DTL.DD_SHP_RCVG_PT, 'n/a'),
+      COALESCE(DTL.DD_GDS_MOVMT_CNTL, 'n/a'),
+      COALESCE(DTL.DD_MOVMT_IND, 'n/a'),
+      COALESCE(DTL.DD_POD_IND, 'n/a'),
+      COALESCE(DTL.DD_POD_RLSE_IND, 'n/a'),
+      COALESCE(DTL.DD_RECV_LOC_NBR, 'n/a'),
+      COALESCE(DTL.DD_TRANSP_TYPE, 'n/a'),
+      COALESCE(DTL.DD_TRANSP_ID, 'n/a'),
+      COALESCE(DTL.HU_INTL_HNDLG_UNT_NBR, 'n/a'),
+      COALESCE(DTL.HU_EXT_HNDLG_UNT_NBR, 'n/a'),
+      COALESCE(DTL.HU_EXT_HNDLG_UNT_NBR_2, 'n/a'),
+      COALESCE(DTL.HU_EXT_HNDLG_UNT_TYPE, 'n/a'),
+      COALESCE(DTL.HU_PCKG_MAT_TYPE, 'n/a'),
+      COALESCE(DTL.HU_PCKD_QTY, 0.000),
+      COALESCE(DTL.HU_PCKD_UOM, 'n/a'),
+      COALESCE(DTL.UM_NUMERATOR, 0.0),
+      COALESCE(DTL.HU_GRS_WGT, 0.000),
+      COALESCE(DTL.HU_WGT_UNT, 'n/a'),
+      COALESCE(DTL.HU_LEN, 0.000),
+      COALESCE(DTL.HU_WDT, 0.000),
+      COALESCE(DTL.HU_HGT, 0.000),
+      COALESCE(DTL.HU_DIM_UOM, 'n/a'),
+      COALESCE(DTL.HU_REC_CHGD_DT, '9999-12-31'),
+      COALESCE(DTL.HU_HNDLG_UNT_STAT, 'n/a'),
+      COALESCE(DTL.HU_BOL_DT, '9999-12-31'),
+      COALESCE(DTL.HU_STR_DT, '9999-12-31'),
+      COALESCE(DTL.HU_DA_SCAN_DT, '9999-12-31'),
+      COALESCE(DTL.HU_LOAD_NBR, 0),
+      COALESCE(DTL.SUPL_LOC_NBR, 'n/a'),
+      COALESCE(DTL.RECV_LOC_NBR, 'n/a'),
+      DTL.BUSINESS_PROCESS,
+      DTL.TO_NODE,
+      DTL.PO_DOC_TYP
+    FROM
+      SCCT_DB.PO_SO_DD_HU_DETAILS AS DTL
+      LEFT JOIN SCCT_DB.PO_LINE_KPI AS KPI ON DTL.BUSINESS_PROCESS = KPI.BUSINESS_PROCESS
+      AND DTL.TO_NODE = KPI.TO_NODE
+      AND DTL.PO_DOC_TYP = KPI.PO_DOC_TYP
+      AND DTL.PO_PURCH_ORD_NBR = KPI.PURCH_ORD_NBR
+      AND DTL.PO_PURCH_ORD_ITM_NBR = KPI.PURCH_ORD_ITM_NBR
+      AND DTL.PO_ITM_NBR = KPI.ITM_NBR
+      LEFT JOIN SCCT_DB.DD_LINE_KPI AS DD ON DTL.BUSINESS_PROCESS = DD.BUSINESS_PROCESS
+      AND DTL.TO_NODE = DD.TO_NODE
+      AND DTL.PO_DOC_TYP = DD.PO_DOC_TYP
+      AND DTL.DD_DELV_DOC_NBR = DD.DELV_DOC_NBR
+      AND DTL.DD_DELV_DOC_ITM_NBR = DD.DELV_DOC_ITM_NBR
+      AND DTL.PO_ITM_NBR = DD.ITM_NBRWHERE DTL.BUSINESS_PROCESS = 'turnkey_production'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'z1po'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'store'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'dc_mast'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'component_inflow'
+      AND DTL.TO_NODE = 'dc_mast'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_intra_company'
+      AND DTL.TO_NODE = 'store'
+      AND DTL.PO_DOC_TYP = 'ub'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_intra_company'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'ub'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'zdtd'
+  );]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="4">
+<Step id="po_so_dd_hu_details_4">
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-2922 ssoma initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------  ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="5">
+<Step id="po_so_dd_hu_details_5">
+<Sql>![CDATA[---jobname:scct-ufposo-hive-stg1-po_so_dd_hu_details_dc_to_store_intra -------------------------------------------------------------------------- ---target: stage1 table: scct_db.po_so_dd_hu_details  ---source: tms_stage0 table : po_master, delivery_master, inventory_movement,  ---handling_master and item_unit_measure_master ---load type: full ---back posting: no -- -- history information -- -- revision date jira developer-id comments -- ----------- ------- ---------- ------------ -------------------- -- 01.00.00.01 20aug19 scctp4-3287 ssoma dc to store intra initial version -- 01.00.00.02 06mar20 scctp4-3316 ssoma remove reducer parameter -- 01.00.00.03 04may20 scctp4-3331 ssoma hql optimization  -- 01.00.00.04 17jan21 scctp-601 kaali m replaced handling_master table with handling_master_poso  ----------------------------------------------------------------------------   ------------------------- ---loading po line kpi's data into po_so_dd_hu_details table -------------------------  ! echo started loading into scct_db.po_so_dd_hu_details;]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details for mast beauty production;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+<Print>![CDATA[completed po_so_dd_hu_kpi_details data load;]]</Print>
+<Print>![CDATA[started loading into scct_db.po_so_dd_hu_kpi_details;]]</Print>
+</Step>
+</SnowBlock>
+<SnowBlock id="6">
+<Step id="po_so_dd_hu_details_6">
+<Sql>![CDATA[INSERT
+  OVERWRITE INTO SCCT_DB.PO_SO_DD_HU_KPI_DETAILS (
+    SELECT
+      DTL.SPPLY_CHN_ND,
+      DTL.FROM_NODE,
+      DTL.PO_PURCH_ORD_NBR,
+      DTL.PO_PURCH_ORD_ITM_NBR,
+      DTL.PO_ITM_NBR,
+      COALESCE(KPI.PO_FRST_SHP_DT, '9999-12-31'),
+      COALESCE(KPI.PO_LST_SHP_DT, '9999-12-31'),
+      COALESCE(KPI.PO_TOT_SHP_UNITS, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_PLN_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_PLN_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_STAT_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_SHP_STAT_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_CRT_TO_FRST_SPMT_DAYS, 0),
+      COALESCE(KPI.PO_CRT_TO_LST_SPMT_DAYS, 0),
+      COALESCE(KPI.PO_FRST_RCPT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_LST_RCPT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_TOT_RCPT_UNITS, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_PLN_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_PLN_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_STAT_DT_PCT, 0),
+      COALESCE(KPI.PO_ONTM_TO_RCPT_STAT_DT_AND_CMPLT_PCT, 0),
+      COALESCE(KPI.PO_NBR_OF_SPMTS, 0),
+      COALESCE(KPI.PO_SPMT_INSTNCS, 'n/a'),
+      COALESCE(KPI.PO_NBR_OF_RCPT, 0),
+      COALESCE(KPI.PO_RCPT_INSTNCS, 'n/a'),
+      COALESCE(KPI.PO_FRST_SPMT_TO_FRST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_FRST_SPMT_TO_LST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_LST_SPMT_TO_FRST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_LST_SPMT_TO_LST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_CRT_TO_FRST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_CRT_TO_LST_RCPT_DAYS, 0),
+      COALESCE(KPI.PO_CRTN_TOT_CNT, 0),
+      COALESCE(KPI.PO_CRTN_TOT_PCKD_UNITS, 0),
+      COALESCE(KPI.PO_CRTN_FRST_SPMT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_CRTN_FRST_RCPT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_CRTN_LST_SPMT_DT, '9999-12-31'),
+      COALESCE(KPI.PO_CRTN_LST_RCPT_DT, '9999-12-31'),
+      '9999-12-31',
+      '9999-12-31',
+      0,
+      COALESCE(DD.DD_CRTN_TOT_CNT, 0),
+      COALESCE(DD.DD_CRTN_TOT_PCKD_UNITS, 0),
+      COALESCE(DTL.PO_DEL_IND, 'n/a'),
+      COALESCE(DTL.PO_CO_CD, 'n/a'),
+      COALESCE(DTL.PO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.PO_PURCH_ORD_QTY, 0.000),
+      COALESCE(DTL.PO_PURCH_ORD_QTY_UOM, 'n/a'),
+      COALESCE(DTL.PO_ORD_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_BASE_UNT_NMRTR_CONVN_NBR, 0),
+      COALESCE(DTL.PO_NET_ORD_VAL_CURCY, 0.00),
+      COALESCE(DTL.PO_DELV_COMPLN_IND, 'n/a'),
+      COALESCE(DTL.PO_BASE_UOM_CD, 'n/a'),
+      COALESCE(DTL.PO_PURCH_ORD_QTY_UNITS, 0.000),
+      COALESCE(DTL.PO_MAST_OWNSHP_DT, '9999-12-31'),
+      COALESCE(DTL.PO_ORIG_MAST_OWNSHP_DT, '9999-12-31'),
+      COALESCE(DTL.PO_PURCH_DOC_TYPE_CD, 'n/a'),
+      COALESCE(DTL.PO_VEND_ACCT_ID, 'n/a'),
+      COALESCE(DTL.PO_PURCHG_ORG_CD, 'n/a'),
+      COALESCE(DTL.PO_PURCHG_GRP_CD, 'n/a'),
+      COALESCE(DTL.PO_CUST_NBR, 'n/a'),
+      COALESCE(DTL.PO_INCTRM, 'n/a'),
+      COALESCE(DTL.PO_PORT_CD, 'n/a'),
+      COALESCE(DTL.PO_OUR_REF, 'n/a'),
+      COALESCE(DTL.PO_TRANSP_MODE, 'n/a'),
+      COALESCE(DTL.PO_SLS_ORD_NBR, 'n/a'),
+      COALESCE(DTL.PO_SLS_ORD_ITM_NBR, 0),
+      COALESCE(DTL.PO_COORIG, 'n/a'),
+      COALESCE(DTL.PO_NDC_DT, '9999-12-31'),
+      COALESCE(DTL.PO_STAT_NDC_DT, '9999-12-31'),
+      COALESCE(DTL.PO_PO_CREATE_DT, '9999-12-31'),
+      COALESCE(DTL.PO_SHIP_TO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.PO_REC_CRTD_DT, 'n/a'),
+      COALESCE(DTL.PO_FLOORSET_DT, '9999-12-31'),
+      COALESCE(DTL.SO_SLS_ORD_NBR, 'n/a'),
+      COALESCE(DTL.SO_SLS_ORD_ITM_NBR, 0),
+      COALESCE(DTL.SO_ITM_NBR, 'n/a'),
+      COALESCE(DTL.SO_NET_VAL, 0.00),
+      COALESCE(DTL.SO_ORD_QTY_SLS_UNT, 0.000),
+      COALESCE(DTL.SO_RECV_LOC_NBR, 'n/a'),
+      COALESCE(DTL.SO_REC_CRTD_DT, '9999-12-31'),
+      COALESCE(DTL.SO_REC_CRTD_ID, 'n/a'),
+      COALESCE(DTL.SO_COST, 0.00),
+      COALESCE(DTL.SO_REQSTD_DT, '9999-12-31'),
+      COALESCE(DTL.SO_CUST_PRCH_NBR, 'n/a'),
+      COALESCE(DTL.SO_SHIP_TO_LOC_NBR, 'n/a'),
+      COALESCE(DTL.SO_CNTRY_CD, 'n/a'),
+      COALESCE(DTL.SO_SLS_DOC_TYPE, 'n/a'),
+      COALESCE(DTL.DD_DELV_DOC_NBR, 'n/a'),
+      COALESCE(DTL.DD_DELV_DOC_ITM_NBR, 0),
+      COALESCE(DTL.DD_DEL_TYPE, 'n/a'),
+      COALESCE(DTL.DD_ACT_DELV_QTY, 0.000),
+      COALESCE(DTL.DD_ACTL_GDS_MOVMT_DT, '9999-12-31'),
+      COALESCE(DTL.DD_DELV_PRTY, 0),
+      COALESCE(DTL.DD_DELV_QTY, 0.000),
+      COALESCE(DTL.DD_GDS_ISS_DATE, '9999-12-31'),
+      COALESCE(DTL.DD_RCVG_STE_DELV, 'n/a'),
+      COALESCE(DTL.DD_HDR_REC_CRTD_DT, '9999-12-31'),
+      COALESCE(DTL.DD_REF_DOC_ITM_NBR, 0),
+      COALESCE(DTL.DD_REF_DOC_NBR, 'n/a'),
+      COALESCE(DTL.DD_SHP_RCVG_PT, 'n/a'),
+      COALESCE(DTL.DD_GDS_MOVMT_CNTL, 'n/a'),
+      COALESCE(DTL.DD_MOVMT_IND, 'n/a'),
+      COALESCE(DTL.DD_POD_IND, 'n/a'),
+      COALESCE(DTL.DD_POD_RLSE_IND, 'n/a'),
+      COALESCE(DTL.DD_RECV_LOC_NBR, 'n/a'),
+      COALESCE(DTL.DD_TRANSP_TYPE, 'n/a'),
+      COALESCE(DTL.DD_TRANSP_ID, 'n/a'),
+      COALESCE(DTL.HU_INTL_HNDLG_UNT_NBR, 'n/a'),
+      COALESCE(DTL.HU_EXT_HNDLG_UNT_NBR, 'n/a'),
+      COALESCE(DTL.HU_EXT_HNDLG_UNT_NBR_2, 'n/a'),
+      COALESCE(DTL.HU_EXT_HNDLG_UNT_TYPE, 'n/a'),
+      COALESCE(DTL.HU_PCKG_MAT_TYPE, 'n/a'),
+      COALESCE(DTL.HU_PCKD_QTY, 0.000),
+      COALESCE(DTL.HU_PCKD_UOM, 'n/a'),
+      COALESCE(DTL.UM_NUMERATOR, 0.0),
+      COALESCE(DTL.HU_GRS_WGT, 0.000),
+      COALESCE(DTL.HU_WGT_UNT, 'n/a'),
+      COALESCE(DTL.HU_LEN, 0.000),
+      COALESCE(DTL.HU_WDT, 0.000),
+      COALESCE(DTL.HU_HGT, 0.000),
+      COALESCE(DTL.HU_DIM_UOM, 'n/a'),
+      COALESCE(DTL.HU_REC_CHGD_DT, '9999-12-31'),
+      COALESCE(DTL.HU_HNDLG_UNT_STAT, 'n/a'),
+      COALESCE(DTL.HU_BOL_DT, '9999-12-31'),
+      COALESCE(DTL.HU_STR_DT, '9999-12-31'),
+      COALESCE(DTL.HU_DA_SCAN_DT, '9999-12-31'),
+      COALESCE(DTL.HU_LOAD_NBR, 0),
+      COALESCE(DTL.SUPL_LOC_NBR, 'n/a'),
+      COALESCE(DTL.RECV_LOC_NBR, 'n/a'),
+      DTL.BUSINESS_PROCESS,
+      DTL.TO_NODE,
+      DTL.PO_DOC_TYP
+    FROM
+      SCCT_DB.PO_SO_DD_HU_DETAILS AS DTL
+      LEFT JOIN SCCT_DB.PO_LINE_KPI AS KPI ON DTL.BUSINESS_PROCESS = KPI.BUSINESS_PROCESS
+      AND DTL.TO_NODE = KPI.TO_NODE
+      AND DTL.PO_DOC_TYP = KPI.PO_DOC_TYP
+      AND DTL.PO_PURCH_ORD_NBR = KPI.PURCH_ORD_NBR
+      AND DTL.PO_PURCH_ORD_ITM_NBR = KPI.PURCH_ORD_ITM_NBR
+      AND DTL.PO_ITM_NBR = KPI.ITM_NBR
+      LEFT JOIN SCCT_DB.DD_LINE_KPI AS DD ON DTL.BUSINESS_PROCESS = DD.BUSINESS_PROCESS
+      AND DTL.TO_NODE = DD.TO_NODE
+      AND DTL.PO_DOC_TYP = DD.PO_DOC_TYP
+      AND DTL.DD_DELV_DOC_NBR = DD.DELV_DOC_NBR
+      AND DTL.DD_DELV_DOC_ITM_NBR = DD.DELV_DOC_ITM_NBR
+      AND DTL.PO_ITM_NBR = DD.ITM_NBRWHERE DTL.BUSINESS_PROCESS = 'turnkey_production'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'z1po'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'store'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'dc_mast'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'component_inflow'
+      AND DTL.TO_NODE = 'dc_mast'
+      AND DTL.PO_DOC_TYP = 'nb'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_intra_company'
+      AND DTL.TO_NODE = 'store'
+      AND DTL.PO_DOC_TYP = 'ub'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_intra_company'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'ub'
+      OR DTL.BUSINESS_PROCESS = 'stock_transfer_inter_company'
+      AND DTL.TO_NODE = 'dc_brand'
+      AND DTL.PO_DOC_TYP = 'zdtd'
+  );]]</Sql>
+<Condition if="ERRORCODE != 0 action=exit value=ERRORCODE"/>
+</Step>
+<Step id="po_so_dd_hu_details_7">
+<Comment>![CDATA[end script]]</Comment>
+</Step>
+</SnowBlock>
+</SnowBlocks>
