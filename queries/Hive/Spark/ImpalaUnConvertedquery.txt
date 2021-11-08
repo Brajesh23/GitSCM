@@ -1,1 +1,0 @@
-select date_add(now(), 7) fro abc;;
